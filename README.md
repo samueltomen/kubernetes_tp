@@ -1,4 +1,4 @@
-# Projet fil rouge
+curl -H "Host: posts.com" http://localhost# Projet fil rouge
 
 ## Introduction
 

@@ -5,10 +5,10 @@ import PostList from "./PostList";
 const App = () => {
   return (
     <div className="container">
-      <h1>Créer un topic</h1>
+      <h1>Create Post</h1>
       <PostCreate />
       <hr />
-      <h1>Sujet</h1>
+      <h1>Posts</h1>
       <PostList />
     </div>
   );
