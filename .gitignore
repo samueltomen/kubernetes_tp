@@ -8,4 +8,5 @@ infra
 ./moderation/node_modules
 ./posts/node_modules
 ./query/node_modules
+.idea
 

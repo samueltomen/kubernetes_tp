@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: mousbak/client
+          image: dytsaw94/client
 ---
 apiVersion: v1
 kind: Service

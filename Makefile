@@ -71,6 +71,6 @@ delete-manifest:
 	@kubectl delete -f ./k8s/
 
 .PHONY: view-all
-view-manifest:
+view-all:
 	@echo "Viewing Kubernetes manifest..."
 	@kubectl get all
