@@ -59,3 +59,18 @@ remove:
 		docker stop $$service 2>/dev/null || true; \
 		docker rm $$service 2>/dev/null || true; \
 	done
+
+.PHONY: apply-manifest
+apply-manifest:
+	@echo "Applying Kubernetes manifest..."
+	@kubectl apply -f ./k8s/
+
+.PHONY: delete-manifest
+delete-manifest:
+	@echo "Deleting Kubernetes manifest..."
+	@kubectl delete -f ./k8s/
+
+.PHONY: view-all
+view-manifest:
+	@echo "Viewing Kubernetes manifest..."
+	@kubectl get all
