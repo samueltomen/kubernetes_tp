@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: query
-          image: mousbak/query
+          image: dytsaw94/query
 ---
 apiVersion: v1
 kind: Service

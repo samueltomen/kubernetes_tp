@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: comments
-          image: mousbak/comments
+          image: dytaw94/comments
 ---
 apiVersion: v1
 kind: Service

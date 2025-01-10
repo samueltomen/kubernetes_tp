@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: event-bus
-          image: mousbak/event-bus
+          image: dytsaw94/event-bus
 ---
 apiVersion: v1
 kind: Service

@@ -13,15 +13,15 @@ const CommentCreate = ({ postId }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:31593/posts/${postId}/comments`,
-        { content },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          withCredentials: false
-        }
+          `http://localhost/posts/${postId}/comments`,
+          { content },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            withCredentials: false
+          }
       );
 
       console.log('Comment created:', response.data);

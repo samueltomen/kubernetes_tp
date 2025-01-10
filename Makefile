@@ -1,8 +1,8 @@
 # Variables
-CLIENT=dytsaw94
+CLIENT=dytsaw94 # A modifier !! remplace par votre nom docker hub
 SERVICES=client event-bus moderation query posts comments
 
-# Build all Docker images
+# Build tous les Docker images
 .PHONY: build
 build:
 	@echo "Building all Docker images..."
@@ -11,7 +11,7 @@ build:
 		docker build -t $(CLIENT)/$$service ./$$service; \
 	done
 
-# Push all Docker images to registry
+# Push tous les Docker images
 .PHONY: push
 push: build
 	@echo "Pushing all Docker images..."
@@ -20,7 +20,7 @@ push: build
 		docker push $(CLIENT)/$$service; \
 	done
 
-# Run all containers
+# Demarre tous les containers
 .PHONY: run
 run:
 	@echo "Starting all containers..."
@@ -29,7 +29,7 @@ run:
 		docker run -d --name $$service $(CLIENT)/$$service; \
 	done
 
-# Stop all containers
+# Stop tous les containers
 .PHONY: stop
 stop:
 	@echo "Stopping all containers..."
@@ -38,7 +38,7 @@ stop:
 		docker stop $$service 2>/dev/null || true; \
 	done
 
-# Remove all containers and images
+# Supprime tous les containers et images
 .PHONY: clean
 clean:
 	@echo "Stopping and removing containers..."
@@ -51,7 +51,7 @@ clean:
 		docker rmi $(CLIENT)/$$service 2>/dev/null || true; \
 	done
 
-# Remove only containers
+# Stop et supprime les containers
 .PHONY: remove
 remove:
 	@echo "Stopping and removing containers..."
@@ -60,17 +60,75 @@ remove:
 		docker rm $$service 2>/dev/null || true; \
 	done
 
-.PHONY: apply-manifest
-apply-manifest:
-	@echo "Applying Kubernetes manifest..."
-	@kubectl apply -f ./k8s/
+.PHONY: stop-all
+stop-all:
+	@echo "Stopping all containers..."
+	@docker stop $(docker ps -a -q)
 
-.PHONY: delete-manifest
-delete-manifest:
-	@echo "Deleting Kubernetes manifest..."
-	@kubectl delete -f ./k8s/
+# Commandes Kubernetes
+.PHONY: apply
+apply:
+	@echo "Applying all Kubernetes resources..."
+	@kubectl apply -f k8s/
 
-.PHONY: view-all
-view-manifest:
-	@echo "Viewing Kubernetes manifest..."
-	@kubectl get all
+.PHONY: delete
+delete:
+	@echo "Deleting all Kubernetes resources..."
+	@kubectl delete -f k8s/
+
+# Supprime tous les pods et les recrée
+.PHONY: recreate-pods
+recreate-pods:
+	@echo "Recreating all pods..."
+	@kubectl delete pods --all
+	@echo "Waiting for pods to terminate..."
+	@sleep 5
+	@echo "New pods are being created by deployments..."
+
+# Supprime tous les services sauf kubernetes
+.PHONY: delete-services
+delete-services:
+	@echo "Deleting all services except kubernetes..."
+	@kubectl get services | grep -v 'kubernetes' | tail -n +2 | awk '{print $$1}' | xargs -I{} kubectl delete service {}
+
+# Supprime tous les pods, deployments et services sauf kubernetes
+.PHONY: delete-all
+clear:
+	@echo "Deleting all services except kubernetes..."
+	@kubectl get services | grep -v 'kubernetes' | tail -n +2 | awk '{print $$1}' | xargs -I{} kubectl delete service {} 2>/dev/null || true
+	@echo "Deleting all pods..."
+	@kubectl delete pods --all 2>/dev/null || true
+	@echo "Deleting all deployments..."
+	@kubectl get deployments -o name | xargs -I{} kubectl delete {} 2>/dev/null || true
+
+# Affiche les ressources Kubernetes
+.PHONY: status
+status:
+	@echo "Getting all Kubernetes resources..."
+	@echo "\Pods:"
+	@kubectl get pods
+	@echo "\Services:"
+	@kubectl get services
+	@echo "\Deployments:"
+	@kubectl get deployments
+	@echo "\Ingress:"
+	@kubectl get ingress
+
+# Affiche les pods
+.PHONY: pods
+pods:
+	@echo "Getting Kubernetes pods..."
+	@kubectl get pods
+
+# Affiche les services
+.PHONY: services
+services:
+	@echo "Getting Kubernetes services..."
+	@kubectl get services
+
+# Affiche les deployments
+.PHONY: deploy
+deploy:
+	@echo "Getting Kubernetes deployments..."
+	@kubectl get deployments
+

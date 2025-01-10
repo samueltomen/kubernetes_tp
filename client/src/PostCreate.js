@@ -12,7 +12,7 @@ const PostCreate = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post('http://localhost:31049/posts/create', 
+      const response = await axios.post('http://localhost/posts/create',
         { title },
         {
           headers: {
