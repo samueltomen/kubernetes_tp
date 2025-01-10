@@ -9,13 +9,13 @@ const CommentList = ({ postId }) => {
   const fetchData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:31593/posts/${postId}/comments`,
-        {
-          headers: {
-            'Accept': 'application/json'
-          },
-          withCredentials: false
-        }
+          `http://localhost/posts/${postId}/comments`,
+          {
+            headers: {
+              'Accept': 'application/json'
+            },
+            withCredentials: false
+          }
       );
 
       console.log(`Comments fetched for post ${postId}:`, res.data);

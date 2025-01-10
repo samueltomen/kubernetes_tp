@@ -9,7 +9,7 @@ const PostList = () => {
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get('http://localhost:30721/posts', {
+      const res = await axios.get('http://localhost/posts', {
         headers: {
           'Accept': 'application/json'
         },
