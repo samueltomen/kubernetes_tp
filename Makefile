@@ -132,3 +132,7 @@ deploy:
 	@echo "Getting Kubernetes deployments..."
 	@kubectl get deployments
 
+.PHONY: view-all
+view-all:
+	@echo "Viewing Kubernetes manifest..."
+	@kubectl get all
